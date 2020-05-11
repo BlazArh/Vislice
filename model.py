@@ -64,7 +64,7 @@ class Igra:
     def pravilni_del_gesla(self):
         trenutno = ""
         for crka in self.geslo:
-            if crke in self.crke:
+            if crka in self.crke:
                 trenutno += crka
             else:
                 trenutno += "_"
