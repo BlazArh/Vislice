@@ -1,10 +1,5 @@
 # Vislice
 
-Matematiki:
+Projekt pri predmetu Uvod v programiranje
 
-Josip Plemelj
-Jurij Vega
-ivan Vidav
-
-Predsednik vlade:
-Janez Janša
+Naredili bomo program; ki nas vodi skozi preprosto igro
