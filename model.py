@@ -76,7 +76,7 @@ class Igra:
     
     #to so bile pomožne metode
 
-    def ugibanj(self, ugibana_crka):
+    def ugibaj(self, ugibana_crka):
         ugibana_crka = ugibana_crka.lower()
 
         if ugibana_crka in self.crke:
