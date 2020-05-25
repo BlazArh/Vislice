@@ -1,5 +1,7 @@
 import random
 
+import json
+
 STEVILO_DOVOLJENIH_NAPAK = 10
 
 ZACETEK = 'Z'
@@ -27,7 +29,7 @@ class Igra:
         if crke is None:
             self.crke = []
         else:
-            self.crke = crke.lower()    
+            self.crke = crke.lower()     
 
     def napacne_crke(self) :
         return [c for c in self.crke if c not in self.geslo]   
@@ -123,6 +125,7 @@ class Vislice:
             return max(self.igre.keys()) + 1    # namest maxa daš lahk len
 
     def nova_igra(self):
+        self.preberi_iz_datoteke()
 
         # dobimo svež id
 
@@ -137,11 +140,14 @@ class Vislice:
         self.igre[nov_id] = (sveza_igra, ZACETEK)
 
         # vrnemo nov id 
+
+        self.shrani_v_datoteko()
         return nov_id
          
     def ugibaj(self, id_igre, crka):
         # Dobimo staro igro ven
-        trenutna_igra, _ = self.igre[id_igre]
+        self.preberi_iz_datoteke()
+        trenutna_igra = self.igre[id_igre]
 
         #Ugibamo crko, dobimo novo stanje
         novo_stanje = trenutna_igra.ugibaj(crka)
@@ -149,6 +155,28 @@ class Vislice:
         #Zapišemo posodobljeno stanje in igro nazaj v "BAZO"
         self.igre[id_igre] = (trenutna_igra, novo_stanje)
 
+        self.shrani_v_datoteko()
+
+
+    def shrani_v_datoteko(self):
+
+
+        igre = {}
+        for id_igre, (igra, stanje) in self.igre.items(): # id_igre, (igra,stanje)
+            igre[id_igre] = ((igra.geslo, igra.crke), stanje)
+
+        with open("stanje_iger.json", "w") as out_file:
+            json.dump(igre, out_file)
+           
+
+    def preberi_iz_datoteke(self):
+        with open("stanje_iger.json", "r") as in_file:
+            igre = json.load(in_file) # mogoče bi preimenovali igre v igre_iz_diska
+
+        self.igre = {}
+
+        for id_igre, ((geslo, crke), stanje) in igre.items():
+            self.igre[int(id_igre)] = Igra(geslo, crke), stanje      
 
 
 
